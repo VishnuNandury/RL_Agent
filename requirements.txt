@@ -5,3 +5,4 @@ uvicorn
 textblob
 numpy
 pydantic
+streamlit-autorefresh
