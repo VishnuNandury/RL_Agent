@@ -1,7 +1,18 @@
 services:
   - type: web
-    name: rl-agent
+    name: streamlit-app
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python main.py"
+    startCommand: "streamlit run app2.py --server.port=$PORT"
     plan: free
+    repo: https://github.com/yourusername/yourrepo
+    branch: main
+
+  - type: web
+    name: fastapi-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn api:app --host 0.0.0.0 --port=$PORT"
+    plan: free
+    repo: https://github.com/yourusername/yourrepo
+    branch: main
