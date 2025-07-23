@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import numpy as np
 from textblob import TextBlob
 import pickle
-from utils import save_interaction
+from utils import save_interaction, load_interactions
 from app2 import STRATEGIES, customer_data, QTable, discretize_state, predict_strategy
 
 app = FastAPI()
@@ -24,6 +24,10 @@ def load_q_table(filename="q_table_exlong.pkl"):
     return qtable
 
 q_table = load_q_table()
+
+@app.get("/interactions")
+async def get_interactions():
+    return load_interactions()
 
 @app.post("/rlmessage")
 async def webhook(req: WebhookRequest):
