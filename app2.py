@@ -96,73 +96,77 @@ def load_q_table(filename="q_table.pkl"):
         qtable.update(pickle.load(f))
     return qtable
 
-st.title("Customer Interaction and Strategy Prediction")
+def main():    
+    st.title("Customer Interaction and Strategy Prediction")
+    
+    tab2, tab3 = st.tabs(["Interaction History", "Strategy Usage"])
+    
+    q_table_filename = "q_table_exlong.pkl"  #you can specify a custom filename if needed
+    
+    #load q table
+    try:
+        q_table = load_q_table(q_table_filename)
+        st.success("Loaded existing Q-table.")
+    except FileNotFoundError:
+        st.warning("No Q-table found. A new Q-table will be initialized.")
+    
+    #interaction history tab
+    with tab2:
+        st.header("Interaction History")
+    
+        interactions = load_interactions_from_api()
+        interactions = list(reversed(interactions))
+    
+        if not interactions:
+            st.write("No interactions yet.")
+        else:
+            header_cols = st.columns([3, 5, 2, 2, 2])
+            header_cols[0].markdown("**Phone Number**")
+            header_cols[1].markdown("**Customer Response**")
+            header_cols[2].markdown("**Customer Sentiment**")
+            header_cols[3].markdown("**Best Strategy**")
+            header_cols[4].markdown("**Ranked Strategies**")
+    
+            for i, item in enumerate(interactions):
+                key = f"toggle_{i}"
+                if key not in st.session_state:
+                    st.session_state[key] = False
+    
+                with st.container():
+                    row_cols = st.columns([3, 5, 2, 2, 2])
+                    row_cols[0].markdown(item["phoneNumber"])
+                    row_cols[1].markdown(item["message"])
+                    row_cols[2].markdown(f"`{item['sentiment']}`")
+                    row_cols[3].markdown(item["best_strategy"])
+    
+                    if row_cols[4].button("View", key=f"btn_{i}"):
+                        st.session_state[key] = not st.session_state[key]
+    
+                    #show ranked strategies
+                    if st.session_state[key]:
+                        st.markdown("**Ranked Strategies:**")
+                        for idx, strat in enumerate(item["ranked_strategies"], start=1):
+                            st.markdown(f"{idx}. {strat}")
+    
+                    st.markdown("---")
+    
+    
+    #strategy usage tab
+    with tab3:
+        st.header("Strategy Usage")
+        #interactions = st.session_state["interactions"]
+        interactions = load_interactions_from_api()
+    
+        #get the best strategies
+        best_strategies = [interaction["best_strategy"] for interaction in interactions]
+    
+        if len(best_strategies) == 0:
+            st.write("No strategies used yet.")
+        else:
+            st.write(f"Displaying most used best strategies:")
+            strategy_counts = {strategy: best_strategies.count(strategy) for strategy in STRATEGIES.values()}
+            st.bar_chart(strategy_counts)
+            st.write(strategy_counts)
 
-tab2, tab3 = st.tabs(["Interaction History", "Strategy Usage"])
-
-q_table_filename = "q_table_exlong.pkl"  #you can specify a custom filename if needed
-
-#load q table
-try:
-    q_table = load_q_table(q_table_filename)
-    st.success("Loaded existing Q-table.")
-except FileNotFoundError:
-    st.warning("No Q-table found. A new Q-table will be initialized.")
-
-#interaction history tab
-with tab2:
-    st.header("Interaction History")
-
-    interactions = load_interactions_from_api()
-    interactions = list(reversed(interactions))
-
-    if not interactions:
-        st.write("No interactions yet.")
-    else:
-        header_cols = st.columns([3, 5, 2, 2, 2])
-        header_cols[0].markdown("**Phone Number**")
-        header_cols[1].markdown("**Customer Response**")
-        header_cols[2].markdown("**Customer Sentiment**")
-        header_cols[3].markdown("**Best Strategy**")
-        header_cols[4].markdown("**Ranked Strategies**")
-
-        for i, item in enumerate(interactions):
-            key = f"toggle_{i}"
-            if key not in st.session_state:
-                st.session_state[key] = False
-
-            with st.container():
-                row_cols = st.columns([3, 5, 2, 2, 2])
-                row_cols[0].markdown(item["phoneNumber"])
-                row_cols[1].markdown(item["message"])
-                row_cols[2].markdown(f"`{item['sentiment']}`")
-                row_cols[3].markdown(item["best_strategy"])
-
-                if row_cols[4].button("View", key=f"btn_{i}"):
-                    st.session_state[key] = not st.session_state[key]
-
-                #show ranked strategies
-                if st.session_state[key]:
-                    st.markdown("**Ranked Strategies:**")
-                    for idx, strat in enumerate(item["ranked_strategies"], start=1):
-                        st.markdown(f"{idx}. {strat}")
-
-                st.markdown("---")
-
-
-#strategy usage tab
-with tab3:
-    st.header("Strategy Usage")
-    #interactions = st.session_state["interactions"]
-    interactions = load_interactions_from_api()
-
-    #get the best strategies
-    best_strategies = [interaction["best_strategy"] for interaction in interactions]
-
-    if len(best_strategies) == 0:
-        st.write("No strategies used yet.")
-    else:
-        st.write(f"Displaying most used best strategies:")
-        strategy_counts = {strategy: best_strategies.count(strategy) for strategy in STRATEGIES.values()}
-        st.bar_chart(strategy_counts)
-        st.write(strategy_counts)
+if __name__ == "__main__":
+    main()
