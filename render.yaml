@@ -1,10 +1,7 @@
 services:
   - type: web
-    name: unified-app
+    name: rl-agent
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
     plan: free
-    envVars:
-      - key: PORT
-        value: 8000
