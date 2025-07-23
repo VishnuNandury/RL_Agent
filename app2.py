@@ -44,7 +44,7 @@ customer_data = [
 ]
 
 def load_interactions_from_api():
-    resp = requests.get("https://fastapi-rl.onrender.com/api/interactions")
+    resp = requests.get("https://fastapi-rl.onrender.com/interactions")
     return resp.json()
 
 class QTable:
