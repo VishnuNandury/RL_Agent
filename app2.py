@@ -4,7 +4,7 @@ import pickle
 from textblob import TextBlob
 import random
 import time
-from utils import load_interactions
+import requests
 from streamlit_autorefresh import st_autorefresh
 
 #autorefresh every 5 seconds for interaction history
@@ -42,6 +42,10 @@ customer_data = [
     {"phoneNumber": "1112223333", "overdue_days": 28, "missed_payments": 4, "risk_category": 2, "demo": 1, "income": 18000},
     {"phoneNumber": "2223334444", "overdue_days": 14, "missed_payments": 0, "risk_category": 1, "demo": 2, "income": 46000}
 ]
+
+def load_interactions_from_api():
+    resp = requests.get("https://fastapi-rl.onrender.com/api/interactions")
+    return resp.json()
 
 class QTable:
     def __init__(self, n_actions):
@@ -109,7 +113,7 @@ except FileNotFoundError:
 with tab2:
     st.header("Interaction History")
 
-    interactions = load_interactions()
+    interactions = load_interactions_from_api()
     interactions = list(reversed(interactions))
 
     if not interactions:
@@ -150,7 +154,7 @@ with tab2:
 with tab3:
     st.header("Strategy Usage")
     #interactions = st.session_state["interactions"]
-    interactions = load_interactions()
+    interactions = load_interactions_from_api()
 
     #get the best strategies
     best_strategies = [interaction["best_strategy"] for interaction in interactions]
