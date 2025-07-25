@@ -46,13 +46,21 @@ async def webhook(req: WebhookRequest):
 
     best, ranked = predict_strategy(state_vec, q_table)
 
+    #templates = {
+    #    "Friendly Reminder": "Hi, this is a gentle payment reminder.",
+    #    "Firm Reminder": "Please be advised that your payment is overdue.",
+    #    "Assign to Telecaller": "Our team will be in touch shortly.",
+    #    "Assign to Agent": "A recovery agent will contact you soon.",
+    #    "Legal Notification": "This is a legal warning for overdue payment."
+    #}
     templates = {
-        "Friendly Reminder": "Hi, this is a gentle payment reminder.",
-        "Firm Reminder": "Please be advised that your payment is overdue.",
-        "Assign to Telecaller": "Our team will be in touch shortly.",
-        "Assign to Agent": "A recovery agent will contact you soon.",
-        "Legal Notification": "This is a legal warning for overdue payment."
+        "Friendly Reminder": "Write a warm and respectful message reminding the customer of their overdue payment and offering help if needed. Keep it under 3 lines or 250 characters.",
+        "Firm Reminder": "Write a professional but firm message informing the customer that their payment is overdue and should be paid soon. Limit to 3 lines or 250 characters.",
+        "Assign to Telecaller": "Inform the customer in a courteous tone that a representative will contact them shortly regarding their overdue payment. Keep the message under 2 lines or 200 characters.",
+        "Assign to Agent": "Compose a serious, formal message notifying the customer that a field recovery agent has been assigned due to continued non-payment. Keep it under 3 lines or 250 characters.",
+        "Legal Notification": "Write an assertive, formal message warning the customer about possible legal action due to overdue payments. Limit it to 3 lines or 250 characters."
     }
+
 
     save_interaction({
         "phoneNumber": req.phoneNumber,
