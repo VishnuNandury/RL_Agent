@@ -27,8 +27,8 @@ STRATEGIES = {
 
 #dummy customer data
 customer_data = [
-    {"phoneNumber": "1234567890", "overdue_days": 22, "missed_payments": 3, "risk_category": 2, "demo": 1, "income": 20000},
-    {"phoneNumber": "0987654321", "overdue_days": 5, "missed_payments": 0, "risk_category": 0, "demo": 0, "income": 50000},
+    {"phoneNumber": "917891425360", "overdue_days": 22, "missed_payments": 3, "risk_category": 2, "demo": 1, "income": 20000},
+    {"phoneNumber": "917995827651", "overdue_days": 5, "missed_payments": 0, "risk_category": 0, "demo": 0, "income": 50000},
     {"phoneNumber": "919182574071", "overdue_days": 17, "missed_payments": 2, "risk_category": 1, "demo": 2, "income": 30000},
     {"phoneNumber": "2223334444", "overdue_days": 10, "missed_payments": 1, "risk_category": 0, "demo": 1, "income": 45000},
     {"phoneNumber": "3334445555", "overdue_days": 20, "missed_payments": 1, "risk_category": 2, "demo": 2, "income": 35000},
