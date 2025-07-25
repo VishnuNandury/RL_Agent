@@ -53,12 +53,49 @@ async def webhook(req: WebhookRequest):
     #    "Assign to Agent": "A recovery agent will contact you soon.",
     #    "Legal Notification": "This is a legal warning for overdue payment."
     #}
+    #templates = {
+    #    "Friendly Reminder": "Write a warm and respectful message reminding the customer of their overdue payment and offering help if needed. Keep it under 3 lines or 250 characters.",
+    #    "Firm Reminder": "Write a professional but firm message informing the customer that their payment is overdue and should be paid soon. Limit to 3 lines or 250 characters.",
+    #    "Assign to Telecaller": "Inform the customer in a courteous tone that a representative will contact them shortly regarding their overdue payment. Keep the message under 2 lines or 200 characters.",
+    #    "Assign to Agent": "Compose a serious, formal message notifying the customer that a field recovery agent has been assigned due to continued non-payment. Keep it under 3 lines or 250 characters.",
+    #    "Legal Notification": "Write an assertive, formal message warning the customer about possible legal action due to overdue payments. Limit it to 3 lines or 250 characters."
+    #}
     templates = {
-        "Friendly Reminder": "Write a warm and respectful message reminding the customer of their overdue payment and offering help if needed. Keep it under 3 lines or 250 characters.",
-        "Firm Reminder": "Write a professional but firm message informing the customer that their payment is overdue and should be paid soon. Limit to 3 lines or 250 characters.",
-        "Assign to Telecaller": "Inform the customer in a courteous tone that a representative will contact them shortly regarding their overdue payment. Keep the message under 2 lines or 200 characters.",
-        "Assign to Agent": "Compose a serious, formal message notifying the customer that a field recovery agent has been assigned due to continued non-payment. Keep it under 3 lines or 250 characters.",
-        "Legal Notification": "Write an assertive, formal message warning the customer about possible legal action due to overdue payments. Limit it to 3 lines or 250 characters."
+        "Friendly Reminder": (
+            "You are a customer support assistant for a financial services provider.\n"
+            "Write a polite and respectful message to a known customer reminding them of their overdue payment.\n"
+            "- Keep the tone warm but professional, not overly casual.\n"
+            "- Mention that payment is overdue and offer help if needed.\n"
+            "- Limit to 2–3 sentences and use newlines for readability."
+        ),
+        "Firm Reminder": (
+            "You are a professional support agent communicating with an existing customer.\n"
+            "Write a firm but courteous message stating that their payment is overdue and must be settled soon.\n"
+            "- Avoid overly friendly language; keep the tone serious and businesslike.\n"
+            "- Limit to 2–3 sentences and format with newlines."
+        ),
+        "Assign to Telecaller": (
+            "You are informing a customer that a representative will follow up.\n"
+            "Craft a short message stating that a team member will reach out to discuss their overdue payment.\n"
+            "- Keep the tone respectful and brief.\n"
+            "- Use 1–2 sentences.\n"
+            "- Format with newlines if needed."
+        ),
+        "Assign to Agent": (
+            "You are notifying a customer that a field recovery agent has been assigned.\n"
+            "Write a serious and formal message that:\n"
+            "- Clearly states the reason (continued non-payment)\n"
+            "- Communicates the next step (agent visit)\n"
+            "- Uses 2–3 sentences.\n"
+            "- Maintain a firm and official tone."
+        ),
+        "Legal Notification": (
+            "You are a compliance officer sending a legal warning to a known customer.\n"
+            "Write a formal, assertive message warning of legal action due to overdue payments.\n"
+            "- Avoid emotional or friendly language.\n"
+            "- Use 2–3 concise sentences.\n"
+            "- Format for clarity and seriousness."
+        )
     }
 
 
